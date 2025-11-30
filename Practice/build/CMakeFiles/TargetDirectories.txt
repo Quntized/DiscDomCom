@@ -1,0 +1,3 @@
+/home/sajid/DDC/Practice/build/CMakeFiles/ddc_test.dir
+/home/sajid/DDC/Practice/build/CMakeFiles/edit_cache.dir
+/home/sajid/DDC/Practice/build/CMakeFiles/rebuild_cache.dir

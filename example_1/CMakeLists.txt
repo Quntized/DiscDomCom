@@ -1,0 +1,7 @@
+cmake_minimum_required(VERSION 3.25)
+project(ddc_example LANGUAGES CXX)
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+find_package(DDC 0.8.0 REQUIRED)
+add_executable(example_core main_core.cpp)
+target_link_libraries(example_core PRIVATE DDC::core)

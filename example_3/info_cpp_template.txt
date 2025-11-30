@@ -1,0 +1,4 @@
+In C++17 (before Concepts), we didn’t have clean ways to restrict template arguments.
+So, people used this idiom:
+template <typename T, typename = std::enable_if_t<Condition>>
+The typename = something (or class = something) is a dummy template argument that is only valid if the enable_if_t condition is true.

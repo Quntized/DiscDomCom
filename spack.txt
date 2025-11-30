@@ -1,0 +1,5 @@
+. spack-1.0.1/share/spack/setup-env.sh
+or
+. ~/spack-1.0.1/share/spack/setup-env.sh
+
+spack env activate ddc-env

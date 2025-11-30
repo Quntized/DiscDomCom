@@ -1,0 +1,12 @@
+(base) sajid@MechaQuanta:~/DDC/build$ cmake -G "Ninja" ..
+CMake Error: CMake was unable to find a build program corresponding to "Ninja".  CMAKE_MAKE_PROGRAM is not set.  You probably need to select a different build tool.
+CMake Error: CMAKE_CXX_COMPILER not set, after EnableLanguage
+-- Configuring incomplete, errors occurred!
+-----------------------this error occurred because CMAKE can't find the ninja program on my system. I need to install it.
+&& CMAKE_CXX_COMPILER not set - this is more critical error cmake cannot find a C++ compiler (like g++ or clang++) on my system. I can't build a C++ project without a C++ compiler.
+To fix
+1) Install C++ compiler and build tools using-
+sudo apt update 
+sudo apt install build-essential
+2) install the ninja -
+sudo apt install ninja-build
