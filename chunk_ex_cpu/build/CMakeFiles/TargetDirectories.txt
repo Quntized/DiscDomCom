@@ -1,0 +1,3 @@
+/home/sajid/DDC/chunk_ex_cpu/build/CMakeFiles/sajid.dir
+/home/sajid/DDC/chunk_ex_cpu/build/CMakeFiles/edit_cache.dir
+/home/sajid/DDC/chunk_ex_cpu/build/CMakeFiles/rebuild_cache.dir
