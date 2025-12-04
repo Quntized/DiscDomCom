@@ -1,0 +1,94 @@
+This snippet implements the Runtime Compatibility Check for assigning one Kokkos::View to another.
+
+Unlike the compile-time check (is_always_assignable_v) which only looks at types, this function looks at the actual dimension sizes of the objects to ensure they match.
+The Big Picture: "Can I pour this bucket into that bucket?"
+
+    Compile-Time (Types): "Is it legal to pour Water into a bucket labeled 'Liquid'?" (Yes).
+
+    Runtime (Sizes): "Is the destination bucket big enough?" (e.g., trying to pour 10 gallons into a 5-gallon bucket). This code checks that.
+
+Detailed Code Breakdown
+C++
+
+return is_always_assignable_v<...> || ( ... );
+
+The function returns true if either:
+
+    The types are so compatible that assignment is always valid (Compile-time check passes).
+
+    OR the types are technically compatible, but we need to check the specific runtime sizes (The complex block in parentheses).
+
+The Complex Block: Checking Dimensions
+
+The code manually checks each dimension (rank) from 0 up to 7.
+C++
+
+(dst_mdspan::rank_dynamic() >= 1) || (dst.static_extent(0) == src.extent(0))
+
+This logic is repeated for every dimension. Let's translate it:
+
+    dst_mdspan::rank_dynamic() >= 1:
+
+        Translation: "Is dimension #0 dynamic (changeable at runtime)?"
+
+        Meaning: If the destination's size is dynamic (e.g., double*), it can resize itself or accept any size. So, Rank 0 is OK.
+
+    || (dst.static_extent(0) == src.extent(0)):
+
+        Translation: "If dimension #0 is static (fixed at compile-time), is it exactly equal to the source's size?"
+
+        Meaning: If dst is double[10] (static size 10), and src has size 10, Rank 0 is OK. If src has size 11, this returns false, and the assignment fails.
+
+Example Code: Where this fails
+
+Here is a code example that triggers this specific check to return false.
+C++
+
+#include <Kokkos_Core.hpp>
+#include <iostream>
+
+int main(int argc, char* argv[]) {
+    Kokkos::ScopeGuard guard(argc, argv);
+
+    // 1. Create a View with DYNAMIC dimensions (size set at runtime)
+    //    Type: double* (pointer)
+    Kokkos::View<double*> dynamic_view("dynamic", 100);
+
+    // 2. Create a View with STATIC dimensions (size fixed in type)
+    //    Type: double[50] (array)
+    //    This is common in small physics kernels.
+    Kokkos::View<double[50]> static_view("static");
+
+    // 3. THE ASSIGNMENT CHECK
+    
+    // Scenario A: Can I assign static -> dynamic?
+    // Logic: dynamic_view is dynamic (rank_dynamic >= 1). It accepts anything.
+    // Result: TRUE.
+    bool can_assign_A = Kokkos::is_assignable(dynamic_view, static_view);
+    
+    // Scenario B: Can I assign dynamic -> static?
+    // Logic: static_view is NOT dynamic. 
+    //        So it checks: static_extent(0) == src.extent(0)?
+    //        50 == 100? -> FALSE.
+    // Result: FALSE.
+    bool can_assign_B = Kokkos::is_assignable(static_view, dynamic_view);
+
+    std::cout << "Can assign Static(50) -> Dynamic? " << std::boolalpha << can_assign_A << "\n";
+    std::cout << "Can assign Dynamic(100) -> Static(50)? " << can_assign_B << "\n";
+
+    return 0;
+}
+
+Summary
+
+This function prevents you from crashing your program or corrupting memory.
+
+If you try to execute static_view = dynamic_view; in the example above:
+
+    is_assignable returns false.
+
+    Kokkos detects this inside the assignment operator.
+
+    The program aborts immediately with a clear error message ("Incompatible View Assignment") instead of silently overwriting memory.
+
+

@@ -1,0 +1,3 @@
+/home/sajid/DDC/Kokkos/build/CMakeFiles/assign_check.dir
+/home/sajid/DDC/Kokkos/build/CMakeFiles/edit_cache.dir
+/home/sajid/DDC/Kokkos/build/CMakeFiles/rebuild_cache.dir

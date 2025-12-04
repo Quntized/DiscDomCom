@@ -1,0 +1,50 @@
+This code snippet defines the Compile-Time Safety Rules for assigning one View to another.
+
+In C++, you can't just write ViewA = ViewB and expect it to work. They have to be compatible. This struct, is_always_assignable_impl, calculates whether that assignment is legal.
+1. The "Meta-Function" Logic
+
+This struct is a "Meta-Function." It doesn't run when your program starts; it runs while your code is compiling.
+
+    Input: Two View types (ViewTDst destination, ViewTSrc source).
+
+    Output: A boolean (value) that is true or false.
+
+2. The Logic Gates (value = ...)
+
+The assignment is legal ONLY if both of these conditions are true:
+
+A. std::is_constructible_v<dst_mdspan, src_mdspan>
+
+    Translation: "Is the memory layout compatible?"
+
+    This checks the deep technical details:
+
+        Data Type: Can I put double into const double? (Yes). Can I put const double into double? (No, that breaks const-correctness).
+
+        Layout: Is the source LayoutRight and the destination LayoutLeft? If so, you can't just assign the pointer (the strides would be wrong). You would need a deep copy. This check prevents invalid pointer assignments.
+
+B. Rank Dynamic Check
+
+    Code: dst...rank_dynamic >= src...rank_dynamic
+
+    Translation: "Does the destination have enough flexibility to hold the source?"
+
+    This ensures you don't accidentally assign a view with dynamic dimensions (size known at runtime) to a view with static dimensions (size fixed at compile time) if they don't match up safely.
+
+3. Why this matters to you
+
+You will never call this struct manually. However, you will see it in error messages.
+
+If you write this bad code:
+C++
+
+Kokkos::View<const double*> read_only_data("data", 100);
+Kokkos::View<double*> writable_data;
+
+// ERROR! You cannot remove 'const' access.
+writable_data = read_only_data;
+
+The compiler will scream at you. Somewhere in the wall of text, it will point to is_always_assignable_impl evaluating to false.
+Summary
+
+This file acts as the Gatekeeper. It ensures that Kokkos::View maintains strict C++ type safety, preventing you from accidentally corrupting memory by assigning incompatible arrays to each other.
