@@ -1,0 +1,3 @@
+/home/sajid/DDC/Kokkos/PTR_MEMORY_ADDRESS/build/CMakeFiles/assign_check.dir
+/home/sajid/DDC/Kokkos/PTR_MEMORY_ADDRESS/build/CMakeFiles/edit_cache.dir
+/home/sajid/DDC/Kokkos/PTR_MEMORY_ADDRESS/build/CMakeFiles/rebuild_cache.dir

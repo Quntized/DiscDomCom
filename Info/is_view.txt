@@ -1,0 +1,102 @@
+This code snippet establishes the fundamental type traits and forward declarations for the Kokkos::View class. It is the infrastructure that allows the compiler (and other parts of Kokkos) to recognize what a "View" is.
+
+Here is the breakdown of the four main components.
+1. Forward Declarations
+C++
+
+template <class DataType, class... Properties>
+struct ViewTraits;
+
+template <class DataType, class... Properties>
+class View;
+
+    struct ViewTraits;: This declares that a structure named ViewTraits exists. It will be used later to parse the template arguments (Properties) you pass to a View.
+
+    class View;: This declares the View class itself. DataType is what you store (e.g., double**), and Properties are optional settings like Layout or Memory Space.
+
+2. The Type Detector (is_view)
+
+This is a classic C++ Metaprogramming pattern called a "Type Trait." It answers the question: "Is type T a Kokkos View?"
+
+A. The Default Case (False)
+C++
+
+template <class>
+struct is_view : public std::false_type {};
+
+    By default, for any random type T (like int, std::vector, MyClass), is_view<T> inherits from std::false_type.
+
+    Meaning: is_view<int>::value is false.
+
+B. The Specialization (True)
+C++
+
+template <class D, class... P>
+struct is_view<View<D, P...> > : public std::true_type {};
+
+    This is a Partial Template Specialization.
+
+    It says: "If the type matches the pattern View<D, P...>, then ignore the default case above. Use this one instead."
+
+    This one inherits from std::true_type.
+
+    Meaning: is_view<Kokkos::View<double*>>::value is true.
+
+C. The Const Specialization
+C++
+
+template <class D, class... P>
+struct is_view<const View<D, P...> > : public std::true_type {};
+
+    This handles const Kokkos::View<...>. Even if the View object itself is constant, it is still a View.
+
+3. The Shortcut (is_view_v)
+C++
+
+template <class T>
+inline constexpr bool is_view_v = is_view<T>::value;
+
+    What it is: A Variable Template (standard since C++17).
+
+    Why: It makes code cleaner.
+
+        Old style: if (Kokkos::is_view<T>::value) ...
+
+        New style: if (Kokkos::is_view_v<T>) ...
+
+Example Usage
+
+Here is how you (or the library developers) use this infrastructure.
+C++
+
+#include <Kokkos_Core.hpp>
+#include <type_traits>
+#include <iostream>
+#include <vector>
+
+// A generic function that only accepts Views
+template <class T>
+void process_data(T data) {
+    // This check happens at compile-time!
+    if constexpr (Kokkos::is_view_v<T>) {
+        std::cout << "Processing a Kokkos View!\n";
+    } else {
+        std::cout << "Error: This is not a View. It is a " << typeid(T).name() << "\n";
+    }
+}
+
+int main(int argc, char* argv[]) {
+    Kokkos::ScopeGuard guard(argc, argv);
+
+    Kokkos::View<double*> my_view("A", 100);
+    std::vector<double> my_std_vec(100);
+
+    process_data(my_view);      // Prints: Processing a Kokkos View!
+    process_data(my_std_vec);   // Prints: Error: This is not a View...
+
+    return 0;
+}
+
+Summary
+
+This file sets up the Identity Card system for Kokkos. It defines what a View is and provides a machine-readable way (is_view_v) to check that ID card at compile time.

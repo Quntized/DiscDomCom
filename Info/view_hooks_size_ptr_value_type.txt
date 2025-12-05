@@ -1,0 +1,105 @@
+This code block defines more Public Type Aliases for the Kokkos::View.
+
+These lines extract low-level types (like "what is a pointer?" or "what is the size type?") so that users and internal functions can interact with the View without knowing the implementation details.
+
+Here is the line-by-line breakdown.
+1. The FIXME Comments
+C++
+
+// FIXME: Should be unsigned
+// FIXME: these are overriden so that their types are identical when using...
+
+    Context: The developers are admitting that the code is messy here.
+
+    The Issue: Kokkos is currently transitioning from an "Old Engine" (Legacy) to a "New Engine" (BasicView / mdspan).
+
+    The Hack: They are forcing these types (size_type, etc.) to look exactly the same regardless of which engine is used, so that user code doesn't break during the transition.
+
+2. Standard Container Types
+C++
+
+using size_type  = typename memory_space::size_type;
+
+    What it is: The type used for counting elements and indexing (usually size_t or unsigned int).
+
+    Why define it? If you are running on a GPU, size_type might be different than on a CPU (e.g., 32-bit vs 64-bit). This alias ensures you use the correct type for the hardware where the data lives.
+
+C++
+
+using value_type = typename traits::value_type;
+
+    What it is: The type of the data stored, stripped of pointers and qualifiers.
+
+    Example: If DataType is const double*, value_type is just double.
+
+3. The Pointer Type (The Tricky Part)
+C++
+
+using pointer_type = decltype(Impl::ptr_from_data_handle(
+      std::declval<typename base_t::data_handle_type>()));
+
+    Goal: Figure out exactly what a "Pointer" looks like for this specific View.
+
+    Why is this hard?
+
+        On a CPU, a pointer is just double*.
+
+        On a GPU or in complex math libraries (Sacado), a "pointer" might be a smart object or a special handle.
+
+    How it works (decltype + declval):
+
+        typename base_t::data_handle_type: Gets the raw handle from the parent class.
+
+        std::declval<...>(): "Pretend" we have an instance of this handle (without actually creating one).
+
+        Impl::ptr_from_data_handle(...): Calls the internal helper function we looked at earlier (the "Unwrapper").
+
+        decltype(...): Asks the compiler, "What is the return type of that function?"
+
+    Result: pointer_type becomes the true raw pointer (e.g., double*).
+
+4. Private Implementation Details
+
+The private: keyword starts here. These types are for internal use only.
+C++
+
+using raw_allocation_value_type = std::remove_pointer_t<pointer_type>;
+
+    What it is: The type of the raw bytes allocated in memory.
+
+    Example: If pointer_type is double*, this is double. If pointer_type is int*, this is int.
+
+C++
+
+using hooks_policy =
+      typename Impl::ViewHooksFromTraits<DataType, Properties...>::type;
+
+    What is a "Hook"? A hook is a way to inject extra logic into the View's lifecycle without changing the main code.
+
+    Example: You might use a hook to track memory usage for a specific profiler or to add debug checks.
+
+    ViewHooksFromTraits: This helper scans your Properties list to see if you requested any special hooks.
+
+C++
+
+static constexpr bool has_hooks_policy = !std::is_void_v<hooks_policy>;
+
+    What it does: A compile-time boolean flag.
+
+    Logic: If hooks_policy turned out to be void (nothing), then has_hooks_policy is false. Otherwise, it is true.
+
+    Usage: The View code uses if constexpr (has_hooks_policy) to decide whether to run the extra hook logic.
+
+Summary
+
+This block is all about Standardization.
+
+It ensures that whether you are on a Laptop or a Supercomputer:
+
+    View::size_type is always the correct integer type.
+
+    View::pointer_type is always a valid pointer to the data.
+
+    The class knows if it needs to run extra "Hooks" (plugins) based on your configuration.
+
+Next Step for You: Would you like to analyze the Constructors of the public View class? That is where you will see how users actually create these objects (e.g., View v("name", 100);).
