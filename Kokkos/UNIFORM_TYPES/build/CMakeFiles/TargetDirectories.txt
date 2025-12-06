@@ -1,0 +1,3 @@
+/home/sajid/DDC/Kokkos/UNIFORM_TYPES/build/CMakeFiles/sajid.dir
+/home/sajid/DDC/Kokkos/UNIFORM_TYPES/build/CMakeFiles/edit_cache.dir
+/home/sajid/DDC/Kokkos/UNIFORM_TYPES/build/CMakeFiles/rebuild_cache.dir

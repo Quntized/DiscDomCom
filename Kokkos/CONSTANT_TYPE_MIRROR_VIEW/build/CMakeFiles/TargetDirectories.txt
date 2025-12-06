@@ -1,0 +1,3 @@
+/home/sajid/DDC/Kokkos/CONSTANT_TYPE_MIRROR_VIEW/build/CMakeFiles/sajid.dir
+/home/sajid/DDC/Kokkos/CONSTANT_TYPE_MIRROR_VIEW/build/CMakeFiles/edit_cache.dir
+/home/sajid/DDC/Kokkos/CONSTANT_TYPE_MIRROR_VIEW/build/CMakeFiles/rebuild_cache.dir

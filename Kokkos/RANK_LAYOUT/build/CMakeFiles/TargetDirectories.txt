@@ -1,0 +1,3 @@
+/home/sajid/DDC/Kokkos/RANK_LAYOUT/build/CMakeFiles/sajid.dir
+/home/sajid/DDC/Kokkos/RANK_LAYOUT/build/CMakeFiles/edit_cache.dir
+/home/sajid/DDC/Kokkos/RANK_LAYOUT/build/CMakeFiles/rebuild_cache.dir
