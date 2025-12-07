@@ -1,0 +1,51 @@
+The layout() function is the bridge between the internal memory arrangement and the public API. It translates the complex, internal math of mdspan into a simple LayoutRight or LayoutLeft object that you can inspect.
+
+In the example code (stride_demo.cpp), the connection happens when you call .stride(0) or create the view with a specific layout.
+
+Here is the step-by-step connection:
+1. You Request a Layout (The Input)
+
+When you wrote this line in stride_demo.cpp:
+C++
+
+Kokkos::View<double**, Kokkos::LayoutRight> view_right("Right", 10, 5);
+
+You told Kokkos: "I want a 10x5 grid, and I want it laid out row-by-row (LayoutRight)."
+2. Kokkos Configures the Internals (The Engine)
+
+Internally, the View created a mapping_type based on your request.
+
+    Since you asked for LayoutRight, the mapping logic was set to: "Stride(1) is 1, Stride(0) is 5."
+
+    This mapping logic is stored deep inside the base_t (BasicView) object.
+
+3. You Call layout() (The Retrieval)
+
+If you were to call view_right.layout(), this function executes:
+C++
+
+KOKKOS_INLINE_FUNCTION constexpr array_layout layout() const {
+    // 1. It calls base_t::mapping() to get that internal logic engine.
+    // 2. It passes that engine to 'array_layout_from_mapping'.
+    return Impl::array_layout_from_mapping<array_layout, mdspan_type>(
+        base_t::mapping());
+}
+
+    base_t::mapping(): Fetches the internal math engine that knows "Stride(0) = 5".
+
+    array_layout_from_mapping: Converts that math engine back into a user-friendly struct (array_layout) containing the dimensions [10, 5] and strides [5, 1].
+
+4. You Inspect the Result (The Output)
+
+In the example code, when you called:
+C++
+
+view_right.stride(0)
+
+This is effectively asking the layout object for that specific piece of information.
+
+    Result: It printed 5 because the layout() function correctly translated the internal mapping state back to you.
+
+Summary
+
+The layout() function proves that the View isn't just "remembering" what you passed to the constructor. It is calculating the layout from the actual memory structure. This ensures that if you slice or reshape the View, layout() will always report the current, true geometry of the data.
