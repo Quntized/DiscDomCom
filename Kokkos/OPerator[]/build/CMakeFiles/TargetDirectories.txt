@@ -1,0 +1,3 @@
+/home/sajid/DDC/Kokkos/OPerator[]/build/CMakeFiles/sajid.dir
+/home/sajid/DDC/Kokkos/OPerator[]/build/CMakeFiles/edit_cache.dir
+/home/sajid/DDC/Kokkos/OPerator[]/build/CMakeFiles/rebuild_cache.dir

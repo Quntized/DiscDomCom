@@ -1,0 +1,3 @@
+/home/sajid/DDC/Kokkos/COMPUTE_OFFSET/build/CMakeFiles/sajid.dir
+/home/sajid/DDC/Kokkos/COMPUTE_OFFSET/build/CMakeFiles/edit_cache.dir
+/home/sajid/DDC/Kokkos/COMPUTE_OFFSET/build/CMakeFiles/rebuild_cache.dir
