@@ -1,0 +1,3 @@
+/home/sajid/DDC/Kokkos/318-627/build/CMakeFiles/view_examples.dir
+/home/sajid/DDC/Kokkos/318-627/build/CMakeFiles/edit_cache.dir
+/home/sajid/DDC/Kokkos/318-627/build/CMakeFiles/rebuild_cache.dir
