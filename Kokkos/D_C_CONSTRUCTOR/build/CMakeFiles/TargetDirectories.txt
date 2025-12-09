@@ -1,0 +1,3 @@
+/home/sajid/DDC/Kokkos/D_C_CONSTRUCTOR/build/CMakeFiles/sajid.dir
+/home/sajid/DDC/Kokkos/D_C_CONSTRUCTOR/build/CMakeFiles/edit_cache.dir
+/home/sajid/DDC/Kokkos/D_C_CONSTRUCTOR/build/CMakeFiles/rebuild_cache.dir

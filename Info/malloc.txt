@@ -1,0 +1,41 @@
+This line of code manually allocates a block of memory on the heap using the C-style allocator, specifically formatted for C++ type safety.
+
+Here is the breakdown of each component:
+1. The Allocation: std::malloc(...)
+
+    What it does: malloc stands for memory allocation. It reserves a contiguous block of memory on the heap.
+
+    Return Type: It returns a void* (a generic pointer). This means malloc knows where the memory is, but it doesn't know what kind of data (integers, floats, objects) you plan to store there.
+
+2. The Size Calculation: sizeof(int) * N
+
+    Bytes vs. Elements: Unlike C++'s new, malloc does not know the size of the data type. It only understands bytes.
+
+    The Math:
+
+        sizeof(int): Usually 4 bytes.
+
+        N: The number of elements (e.g., 5).
+
+        Total request: 4×5=20 bytes.
+
+3. The Cast: static_cast<int*>(...)
+
+    The Problem: Because malloc returns void*, but your variable raw is of type int*, the types do not match.
+
+        In C, this conversion happens implicitly (automatically).
+
+        In C++, the type system is stricter. You cannot assign a void* to an int* without an explicit cast.
+
+    The Solution: static_cast<int*> explicitly tells the compiler: "I know this was a generic chunk of memory, but I promise to treat it as a pointer to integers."
+
+4. The Variable: int* raw
+
+    This creates a pointer variable named raw on the stack. It holds the memory address of the first byte of the allocated heap block.
+
+Comparison: malloc vs new
+
+In modern C++, you would typically use new or std::vector, which handles this automatically.
+Style	Code	Notes
+C-Style (Your code)	int* p = static_cast<int*>(malloc(sizeof(int)*N));	Returns void*, requires cast. Does not run constructors.
+C++ Style	int* p = new int[N];	Returns int*, no cast needed. Runs constructors (initializes objects).
