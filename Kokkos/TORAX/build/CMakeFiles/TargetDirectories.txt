@@ -1,0 +1,6 @@
+/home/sajid/DDC/Kokkos/TORAX/build/CMakeFiles/torax_kokkos.dir
+/home/sajid/DDC/Kokkos/TORAX/build/CMakeFiles/nanobind-static.dir
+/home/sajid/DDC/Kokkos/TORAX/build/CMakeFiles/edit_cache.dir
+/home/sajid/DDC/Kokkos/TORAX/build/CMakeFiles/rebuild_cache.dir
+/home/sajid/DDC/Kokkos/TORAX/build/_deps/nanobind-build/CMakeFiles/edit_cache.dir
+/home/sajid/DDC/Kokkos/TORAX/build/_deps/nanobind-build/CMakeFiles/rebuild_cache.dir
