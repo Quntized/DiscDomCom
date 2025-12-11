@@ -93,4 +93,3 @@ Notes
 - The solver uses an explicit forward-Euler finite-difference discretization. For Dirichlet/Neumann BCs the scheme is stable when alpha = D*dt/dx^2 <= 0.5 approximately; the code warns if alpha>0.5. For larger dt, consider implementing an implicit scheme (e.g., Crank-Nicolson).
 - The module initializes Kokkos automatically on the first call to `simulate(...)`. We intentionally do not finalize Kokkos to allow multiple calls from Python during the same process. If you want strict lifetime control, wrap calls in a separate process or extend the module with explicit init/finalize functions.
 
-If you want, I can now try to build and run the example here (I will attempt to detect your Kokkos location automatically; otherwise provide `-DKokkos_DIR=/path/to/kokkos/lib/cmake/Kokkos`).
