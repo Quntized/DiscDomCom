@@ -1,0 +1,3 @@
+/home/sajid/DDC/DDC/ihfft/build/CMakeFiles/sol.dir
+/home/sajid/DDC/DDC/ihfft/build/CMakeFiles/edit_cache.dir
+/home/sajid/DDC/DDC/ihfft/build/CMakeFiles/rebuild_cache.dir
