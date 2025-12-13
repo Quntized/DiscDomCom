@@ -1,4 +1,3 @@
-Here is the README.md file formatted with proper LaTeX math rendering. You can copy and paste this directly into your GitHub repository or documentation.
 Mathematical Documentation: Spectral Advection Solver
 The mathematics behind this code relies on the Spectral Method for solving Partial Differential Equations (PDEs).
 The core concept is efficient computation: calculus operations (like spatial derivatives) are computationally expensive and error-prone in "Real Space," but they transform into simple algebraic operations (multiplication) in "Fourier Space."
