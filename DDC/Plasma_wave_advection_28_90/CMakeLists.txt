@@ -1,0 +1,8 @@
+cmake_minimum_required(VERSION 3.23)
+project(mine LANGUAGES CXX)
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+find_package(Kokkos REQUIRED)
+find_package(KokkosFFT REQUIRED)
+add_executable(sol plasma_wave_advection.cpp)
+target_link_libraries(sol PRIVATE Kokkos::kokkos KokkosFFT::fft)
