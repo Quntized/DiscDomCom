@@ -1,0 +1,45 @@
+&INDATA
+! --- Control Parameters ---
+  MGRID_FILE = 'NONE'
+  LFREEB = F
+  DELT = 1.000000e+00
+
+! --- Geometry & Resolution ---
+  NFP = 5
+  NCURR = 1
+  MPOL = 12
+  NTOR = 12
+  NZETA = 36
+
+! --- Iteration Settings ---
+  NS_ARRAY = 99
+  FTOL_ARRAY = 1.000000e-12
+  NITER_array = 1000
+  NSTEP = 100
+  NVACSKIP = 6
+
+! --- Physics Values ---
+  GAMMA = 0.000000e+00
+  CURTOR = 0.000000e+00
+  PHIEDGE = -1.740000e+00
+
+! --- Profiles (Power Series) ---
+  PMASS_TYPE = 'power_series'
+  AM = 1.660000e+05 -1.660000e+05 
+  PCURR_TYPE = 'power_series'
+  AC = 0.000000e+00 
+
+! --- Axis Guess ---
+  RAXIS_CC = 5.500000e+00
+
+! --- Boundary Shape (From KokkosFFT) ---
+  RBC(0,0) = 5.401987e+00
+  RBC(0,1) = 4.900664e-01
+  ZBS(0,1) = -8.500000e-01
+  RBC(0,2) = 9.735326e-02
+  RBC(0,3) = 9.900399e-03
+  RBC(0,4) = 6.587021e-04
+  RBC(0,5) = 3.311174e-05
+  RBC(0,6) = 1.323206e-06
+  RBC(0,7) = 4.422272e-08
+/

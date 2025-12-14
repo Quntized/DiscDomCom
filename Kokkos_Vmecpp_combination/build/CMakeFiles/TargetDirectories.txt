@@ -1,0 +1,4 @@
+/home/sajid/DDC/Kokkos_Vmecpp_combination/build/CMakeFiles/plasma_lib.dir
+/home/sajid/DDC/Kokkos_Vmecpp_combination/build/CMakeFiles/lib.dir
+/home/sajid/DDC/Kokkos_Vmecpp_combination/build/CMakeFiles/edit_cache.dir
+/home/sajid/DDC/Kokkos_Vmecpp_combination/build/CMakeFiles/rebuild_cache.dir
