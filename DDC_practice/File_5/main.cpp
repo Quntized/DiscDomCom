@@ -146,6 +146,7 @@ int main() {
         auto sub_span = subchunk.span_view();
 
         std::cout << "Subdomain span size: " << sub_span.domain().size() << std::endl;
+        std::cout << "  data(1,1,0) = " << data(ddc::DiscreteElement<X, Y, Z>(1, 1, 0)) << std::endl;
 
         ddc::for_each(sub_span.domain(), [&](auto sub_elem) {
             sub_span(sub_elem) += 1000.0;

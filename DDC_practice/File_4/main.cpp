@@ -62,6 +62,7 @@ std::cout<<"MdSpan extent(1) "<<temp_mdspan.extent(1)<<std::endl;
 std::cout<<"temp at mdspan[2][1] = " <<temp_mdspan(2,1)<<std::endl;
 temp_mdspan(2,1)= 999.9;
 std::cout<<"After modification"<<temp_mdspan(2,1)<<std::endl;
+std::cout<<"After Modification the value of actual temperature temperature(elem) = "<< temperature(ddc::DiscreteElement<X,Y>(2,1))<<std::endl;
 ddc::Chunk<double , ddc::DiscreteDomain<X,Y>> backup("Backum",dom);
 std::memcpy(backup.data_handle(),temperature.data_handle(),dom.size() *sizeof(double));
 std::cout<<"Backup[0][0] "<<backup(dom.front())<<std::endl;
