@@ -1,0 +1,3 @@
+/home/sajid/DDC/DDC/bsplineknots/build/CMakeFiles/fusion_sim.dir
+/home/sajid/DDC/DDC/bsplineknots/build/CMakeFiles/edit_cache.dir
+/home/sajid/DDC/DDC/bsplineknots/build/CMakeFiles/rebuild_cache.dir
