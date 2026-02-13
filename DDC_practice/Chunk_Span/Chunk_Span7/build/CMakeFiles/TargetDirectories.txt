@@ -1,0 +1,3 @@
+/home/sajid/DDC/DDC_practice/Chunk_Span/Chunk_Span7/build/CMakeFiles/sajid.dir
+/home/sajid/DDC/DDC_practice/Chunk_Span/Chunk_Span7/build/CMakeFiles/edit_cache.dir
+/home/sajid/DDC/DDC_practice/Chunk_Span/Chunk_Span7/build/CMakeFiles/rebuild_cache.dir
