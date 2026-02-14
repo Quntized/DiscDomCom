@@ -136,6 +136,73 @@ int main(int argc, char** argv){
     span(ix,iy) = ddc::select<DDimX>(ix).uid() + ddc::select<DDimY>(iy).uid();
   });
   print_2d("span ", span);
-  
+  std::cout<<" span.domain().size() -----> "<<span.domain().size()<<std::endl;
+  std::cout<<"const_span(1,2,1) ----> "<<cspan(ddc::DiscreteElement<DDimX,DDimY>(1,2))<<std::endl;
+  std::cout<<"X extent od span ------> "<<span.extent<DDimX>()<<std::endl;
+  std::cout<<"Y extent od span ------> "<<span.extent<DDimY>()<<std::endl;
+  {
+    ddc::DiscreteDomain<DDimX> dom_x(ddc::DiscreteElement<DDimX>(0),ddc::DiscreteVector<DDimX>(10));
+    ddc::DiscreteDomain<DDimY> dom_y(ddc::DiscreteElement<DDimY>(0), ddc::DiscreteVector<DDimY>(8));
+    ddc::DiscreteDomain<DDimX,DDimY> dom(dom_x,dom_y);
+    ddc::Chunk grid("grid", dom, ddc::DeviceAllocator<double>());
+    ddc::ChunkSpan span = grid.span_view();
+    ddc::for_each(span.domain(), [&](ddc::DiscreteElement<DDimX,DDimY> ixy){
+      ddc::DiscreteElement<DDimX> ix(ixy);
+      ddc::DiscreteElement<DDimY> iy(ixy);
+      span(ix,iy) = 10*ddc::select<DDimX>(ix).uid() + ddc::select<DDimY>(iy).uid();
+  });
+    print_2d("10x8 matrix data = ",span);
+    auto row_x2 = span[ddc::DiscreteElement<DDimX>(2)];
+    std::cout<<" row x=2 slice ------> "<<std::endl;
+    ddc::for_each(row_x2.domain(),[&](auto elem){
+      std::cout<<row_x2(elem)<<"    ";
+    });
+    std::cout<<"\n";
+    ddc::DiscreteDomain<DDimX> sub_x(ddc::DiscreteElement<DDimX>(1),ddc::DiscreteVector<DDimX>(3));
+    auto subdom_x = span[sub_x];
+    print_2d("Subgrid X = 1 to X = 3 ---> ",subdom_x);
+    ddc::DiscreteDomain<DDimY> sub_y(ddc::DiscreteElement<DDimY>(1),ddc::DiscreteVector<DDimY>(3));
+    auto subdom_y = span[sub_y];
+    print_2d(" subgrid Y = 1 to Y = 3",subdom_y);
+    ddc::DiscreteElement<DDimX,DDimY> sec_xy(ddc::DiscreteElement<DDimX>(1),ddc::DiscreteElement<DDimY>(3));
+    auto dissect = span(sec_xy);
+    std::cout<<" sub_grid(X=1,Y=3) ------> "<<dissect<<std::endl;;
+  }
+  {
+    ddc::DiscreteDomain<DDimX, DDimY> dom(ddc::DiscreteDomain<DDimX>(ddc::DiscreteElement<DDimX>(0), ddc::DiscreteVector<DDimX>(3)),ddc::DiscreteDomain<DDimY>(ddc::DiscreteElement<DDimY>(0), ddc::DiscreteVector<DDimY>(3)));
+    ddc::Chunk data("order_test", dom, ddc::DeviceAllocator<double>());
+    ddc::ChunkSpan span = data.span_view();
+    ddc::DiscreteElement<DDimX> ix(1);
+    ddc::DiscreteElement<DDimY> iy(2);
+    span(ix, iy) = 42.0;
+    std::cout << "  span(ix=1, iy=2) = " << span(ix, iy) << "\n";
+    std::cout << "  span(iy=2, ix=1) = " << span(iy, ix) << " (same!)\n";
+    ddc::DiscreteElement<DDimY, DDimX> iyx(iy, ix);
+    std::cout << "  span(iyx{Y=2,X=1}) = " << span(iyx) << " (same!)\n";
+    print_2d("",span);
+  }
+  {
+  ddc::DiscreteDomain<DDimX, DDimY> dom(ddc::DiscreteDomain<DDimX>(ddc::DiscreteElement<DDimX>(0), ddc::DiscreteVector<DDimX>(3)),ddc::DiscreteDomain<DDimY>(ddc::DiscreteElement<DDimY>(0), ddc::DiscreteVector<DDimY>(3)));
+  ddc::Chunk src("src", dom, ddc::DeviceAllocator<double>());
+  ddc::for_each(dom, [&](ddc::DiscreteElement<DDimX, DDimY> ixy) {
+            ddc::DiscreteElement<DDimX> ix(ixy);
+            ddc::DiscreteElement<DDimY> iy(ixy);
+            src(ix, iy) = ix.uid() + 0.1 * iy.uid();
+        });
+    ddc::Chunk dst("dst", dom, ddc::DeviceAllocator<double>());
+    ddc::parallel_deepcopy(dst, src);
+    print_2d("src                           ", src);
+    print_2d("dst after deepcopy", dst);
+    ddc::ChunkSpan dst_span = dst.span_view();
+    ddc::parallel_for_each(
+            Kokkos::DefaultHostExecutionSpace(),
+            dst.domain(),
+            KOKKOS_LAMBDA(ddc::DiscreteElement<DDimX, DDimY> ixy) {
+                ddc::DiscreteElement<DDimX> ix(ixy);
+                ddc::DiscreteElement<DDimY> iy(ixy);
+                dst_span(ix, iy) *= 2.0;
+            });
+    print_2d("dst after parallel *= 2", dst);
+  }
   
 }
