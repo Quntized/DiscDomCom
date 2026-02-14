@@ -204,5 +204,41 @@ int main(int argc, char** argv){
             });
     print_2d("dst after parallel *= 2", dst);
   }
+  {
+    ddc::DiscreteDomain<DDimX,DDimY> doma(ddc::DiscreteElement<DDimX,DDimY>(10,20),ddc::DiscreteVector<DDimX,DDimY>(3,3));
+    ddc::Chunk dc("Name",doma,ddc::DeviceAllocator<double>());
+    ddc::ChunkSpan span = dc.span_view();
+    ddc::for_each(span.domain(),[&](ddc::DiscreteElement<DDimX,DDimY> ixy){
+      ddc::DiscreteElement<DDimX> ix(ixy);
+      ddc::DiscreteElement<DDimY> iy(ixy);
+      span(ix,iy) = ix.uid() + iy.uid() ;
+    });
+    std::cout<<span(ddc::DiscreteElement<DDimX>(11),ddc::DiscreteElement<DDimY>(21))<<std::endl;
+    ddc::DiscreteDomain<DDimX> sub(ddc::DiscreteElement<DDimX>(11),ddc::DiscreteVector<DDimX>(2));
+    auto sub_dom = span[sub];
+    std::cout<<"   sliced at X = 11, to X = 12 size----->  "<<sub_dom.extent<DDimX>()<<std::endl;
+  }
+  {
+    auto const x_domain = ddc::init_discrete_space<DDimX>(DDimX::init<DDimX>(ddc::Coordinate<X>(0.0),ddc::Coordinate<X>(1.0),ddc::DiscreteVector<DDimX>(50)));
+    auto const y_domain = ddc::init_discrete_space<DDimY>(DDimY::init<DDimY>(ddc::Coordinate<Y>(0.0),ddc::Coordinate<Y>(1.0),ddc::DiscreteVector<DDimY>(50)));
+    std::cout<<" X 5 points x:[0.0,1.0]  -------------->   "<<ddc::step<DDimX>()<<"\n";
+    std::cout<<" Y 5 points y:[0.0,1.0] --------------->   "<<ddc::step<DDimY>()<<"\n";
+    
+    ddc::for_each(x_domain,[&](ddc::DiscreteElement<DDimX> ix){
+      ddc::Coordinate<X> x = ddc::coordinate(ix);
+      std::cout<<"  ix =    "<<ddc::select<DDimX>(ix)<<"  -> "<<ddc::get<X>(x)<<"\n";
+    });
+    ddc::DiscreteDomain<DDimX,DDimY> dom_xy(x_domain,y_domain);
+    ddc::Chunk field("FIELD", dom_xy,ddc::DeviceAllocator<double>());
+    ddc::ChunkSpan span = field.span_view();
+    ddc::for_each(dom_xy,[&](ddc::DiscreteElement<DDimX,DDimY> ixy){
+      double x = ddc::get<X>(ddc::coordinate(ddc::DiscreteElement<DDimX>(ixy)));
+      double y = ddc::get<Y>(ddc::coordinate(ddc::DiscreteElement<DDimY>(ixy)));
+      span(ixy) = x*x + y*y;
+    });
+    print_2d("f(x) = x^2 + y^2",span);
+  }
+  std::cout<<"\n";
+  
   
 }
