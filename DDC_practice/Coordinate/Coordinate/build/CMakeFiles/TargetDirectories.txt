@@ -1,3 +1,0 @@
-/home/sajid/DDC/DDC_practice/Coordinate/Coordinate/build/CMakeFiles/sajid.dir
-/home/sajid/DDC/DDC_practice/Coordinate/Coordinate/build/CMakeFiles/edit_cache.dir
-/home/sajid/DDC/DDC_practice/Coordinate/Coordinate/build/CMakeFiles/rebuild_cache.dir
