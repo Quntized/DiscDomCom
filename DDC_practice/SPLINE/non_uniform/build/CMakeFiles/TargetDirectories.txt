@@ -1,0 +1,3 @@
+/home/sajid/DDC/DDC_practice/SPLINE/non_uniform/build/CMakeFiles/sajid.dir
+/home/sajid/DDC/DDC_practice/SPLINE/non_uniform/build/CMakeFiles/edit_cache.dir
+/home/sajid/DDC/DDC_practice/SPLINE/non_uniform/build/CMakeFiles/rebuild_cache.dir
