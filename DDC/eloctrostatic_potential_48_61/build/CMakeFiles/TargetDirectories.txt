@@ -1,3 +1,0 @@
-/home/sajid/DDC/DDC/eloctrostatic_potential_48_61/build/CMakeFiles/sol.dir
-/home/sajid/DDC/DDC/eloctrostatic_potential_48_61/build/CMakeFiles/edit_cache.dir
-/home/sajid/DDC/DDC/eloctrostatic_potential_48_61/build/CMakeFiles/rebuild_cache.dir

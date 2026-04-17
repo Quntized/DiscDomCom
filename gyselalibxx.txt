@@ -1,0 +1,35 @@
+Run these commands to switch to the devel branch and get the freshest code from GitHub:
+Bash
+
+git checkout devel
+git pull origin devel
+
+Step 2: Create your clean fix branch
+
+Now, create a new branch branching off of devel. (I'll use 142 as a placeholder for your issue number, replace it if yours is different):
+git checkout -b fix-derivfield-memoryspace-142
+
+
+
+
+Step 3: Find and fix the bug
+
+Since this is a big codebase, let's use a terminal trick to find exactly where that file is. Run this command:
+Bash
+
+grep -rn "using memory_space = typename base_type::element_type;" .
+
+This will print out the exact file path (likely something like ./include/gyselalibxx/fields/deriv_field.hpp:123).
+
+Open that file in your text editor (like nano path/to/the/file.hpp), and change the broken line to:
+C++
+
+using memory_space = MemorySpace;
+
+Save and close the file.
+
+
+
+git add src/data_types/derivative_field.hpp
+git commit -m "Update memory_space and element_type as per review"
+git push origin fix-derivfield-memoryspace-142

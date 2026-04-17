@@ -1,3 +1,0 @@
-/home/sajid/DDC/DDC/hfft/build/CMakeFiles/hfft.dir
-/home/sajid/DDC/DDC/hfft/build/CMakeFiles/edit_cache.dir
-/home/sajid/DDC/DDC/hfft/build/CMakeFiles/rebuild_cache.dir

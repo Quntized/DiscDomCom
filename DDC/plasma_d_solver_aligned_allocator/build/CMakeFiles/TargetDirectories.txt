@@ -1,3 +1,0 @@
-/home/sajid/DDC/DDC/plasma_d_solver_aligned_allocator/build/CMakeFiles/my.dir
-/home/sajid/DDC/DDC/plasma_d_solver_aligned_allocator/build/CMakeFiles/edit_cache.dir
-/home/sajid/DDC/DDC/plasma_d_solver_aligned_allocator/build/CMakeFiles/rebuild_cache.dir

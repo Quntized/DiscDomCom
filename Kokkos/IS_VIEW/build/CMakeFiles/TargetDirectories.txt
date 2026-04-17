@@ -1,3 +1,0 @@
-/home/sajid/DDC/Kokkos/IS_VIEW/build/CMakeFiles/sajid.dir
-/home/sajid/DDC/Kokkos/IS_VIEW/build/CMakeFiles/edit_cache.dir
-/home/sajid/DDC/Kokkos/IS_VIEW/build/CMakeFiles/rebuild_cache.dir

@@ -1,0 +1,3 @@
+cd ~/gyselalibxx
+source toolchains/cpu.spack.gyselalibxx_env/environment.sh
+

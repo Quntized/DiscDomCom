@@ -1,4 +1,0 @@
-/home/sajid/DDC/Kokkos/DIFFUSION_SOLVER/build/CMakeFiles/diffusion_kokkos.dir
-/home/sajid/DDC/Kokkos/DIFFUSION_SOLVER/build/CMakeFiles/diffusion_kokkos_cli.dir
-/home/sajid/DDC/Kokkos/DIFFUSION_SOLVER/build/CMakeFiles/edit_cache.dir
-/home/sajid/DDC/Kokkos/DIFFUSION_SOLVER/build/CMakeFiles/rebuild_cache.dir

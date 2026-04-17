@@ -1,3 +1,0 @@
-/home/sajid/DDC/example_code/build/CMakeFiles/sajid.dir
-/home/sajid/DDC/example_code/build/CMakeFiles/edit_cache.dir
-/home/sajid/DDC/example_code/build/CMakeFiles/rebuild_cache.dir
